@@ -26,8 +26,10 @@ This command will start the site on your localhost, and you can access the site 
 
 #### Contributors
 
-Manan Siyal
+Manan Syal
+
 Manik Lakhanpal
+
 Sujal Garg
 
 #### Contact US
