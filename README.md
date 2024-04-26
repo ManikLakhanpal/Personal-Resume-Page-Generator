@@ -26,11 +26,11 @@ This command will start the site on your localhost, and you can access the site 
 
 #### Contributors
 
-Manan Syal
+Manan Syal - Third Owner
 
-Manik Lakhanpal
+Manik Lakhanpal - Primary Owner
 
-Sujal Garg
+Sujal Garg - Secondary Owner
 
 #### Contact US
 
