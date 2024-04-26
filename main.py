@@ -69,7 +69,7 @@ def resume():
       connection.login(email, password)
       connection.sendmail(
           email, user_email,
-          f"Subject:Resume Form Generated\n\nDear, {user_name} Now you can access you resume by clicking on following link:\n\nSite: https://fee.maniklakhanpal.repl.co/resume/{file_name}"
+          f"Subject:Resume Form Generated\n\nDear, {user_name} Now you can access you resume by clicking on following link:\n\nSite: http://resume.w16manik.ninja/resume/{file_name}"
       )
 
     # return f"{user_name}, {user_phone}, {user_email}, {user_location}, {user_sec_edu}, {user_sr_edu}, {user_languages}, {user_profile}, {user_achievements}, {user_skills}, {user_knowledge}, {user_hobbies}"
