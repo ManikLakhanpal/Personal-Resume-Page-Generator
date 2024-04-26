@@ -3,9 +3,9 @@ import smtplib
 import json
 import os
 
-smtp_server = os.environ['SMTP_SERVER']
-email = os.environ['EMAIL']
-password = os.environ['PASSWORD']
+smtp_server = "smtp.gmail.com"
+email = "ryzenthedon@gmail.com"
+password = "ebyn fwaf vinu qtlv"
 
 app = Flask(__name__)
 
@@ -64,7 +64,7 @@ def resume():
       json.dump(request.form, f)
       f.write('\n')
 
-    with smtplib.SMTP(smtp_server) as connection:
+    with smtplib.SMTP(smtp_server, 587) as connection:
       connection.starttls()
       connection.login(email, password)
       connection.sendmail(
