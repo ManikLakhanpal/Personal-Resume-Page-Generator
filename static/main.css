@@ -36,9 +36,9 @@ body {
 nav {
     margin-top: 0;
     padding: 1.3rem 0rem;
-    border-top: 1px solid rgb(139, 138, 138);
-    border-bottom: 1px solid rgb(139, 138, 138);
-    background-color: #43b6cd;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+    background-color: black;
 }
 
 .w16 {
@@ -96,7 +96,7 @@ li {
     background-size: cover;
     background-repeat: no-repeat;
     align-items: center;
-    border: 1px solid grey;
+    
 }
 
 .parent {
@@ -110,12 +110,16 @@ li {
 }
 
 .displaytxt {
-    border: 1px solid black;
+    
     padding: 0px 25px;
     background-color: rgba(0, 0, 0, 0.83);
     margin-bottom: 33px;
     color: whitesmoke;
     font-size: 5vw;
+    background-size: cover;
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
 }
 
 .subtitle {
@@ -127,11 +131,15 @@ li {
     margin-top: 3px;
     background-color: rgba(0, 0, 0, 0.74); /* Add a semi-transparent background */
     padding: 0 25px; /* Add padding for better visibility */
+    background-size: cover;
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
 }
 
 .footer {
-    background-color: rgb(37, 36, 36);
-    border-top: 1px solid grey;
+    background-color: black;
+    border-top: 1px solid gray;
 }
 
 .socials {
