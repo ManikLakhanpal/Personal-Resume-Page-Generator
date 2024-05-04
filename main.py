@@ -1,14 +1,25 @@
 from flask import Flask, url_for, redirect, render_template, request
 import smtplib
+import psycopg2
+import credentials # seperate python file with credentials
 import json
 import os
 
-smtp_server = "smtp.gmail.com"
-email = "ryzenthedon@gmail.com"
-password = "ebyn fwaf vinu qtlv"
+smtp_server = credentials.smtp_server
+email = credentials.email
+password = credentials.password
 
 app = Flask(__name__)
 
+connect = psycopg2.connect(
+  database="resume",
+  user="postgres",
+  password=credentials.db_password,
+  host="localhost",
+  port="5432"
+)
+
+cursor = connect.cursor()
 
 def to_dict(key, val):
   return key, val
@@ -58,22 +69,48 @@ def resume():
     skill = dict(map(to_dict, skill_name, skill_val))
     achi = dict(map(to_dict, achi_val, achi_txt))
 
-    file_name = f"{user_name[:5]}{user_phone}"
+    filename = f"{user_name[:5]}{user_phone}"
 
-    with open(f'./data/{file_name}.json', 'w') as f:
-      json.dump(request.form, f)
-      f.write('\n')
+    try:
+      cursor.execute("SELECT * FROM resumes")
+      data = cursor.fetchall()
 
-    with smtplib.SMTP(smtp_server, 587) as connection:
-      connection.starttls()
-      connection.login(email, password)
-      connection.sendmail(
-          email, user_email,
-          f"Subject:Resume Form Generated\n\nDear, {user_name} Now you can access you resume by clicking on following link:\n\nSite: http://resume.w16manik.ninja/resume/{file_name}"
+      insert_query = """
+        INSERT INTO resumes (
+        name, phone, email, linkedin, location,
+        secondary_edu, senior_secondary_edu, languages,
+        profile, achievements, prof_skills,
+        prof_knowledge, hobbies, picture, filename
+        )
+        VALUES (
+        %s, %s, %s, %s, %s, %s, %s, %s, %s,
+        %s, %s, %s, %s, %s, %s
+        )
+      """
+      data = (
+        user_name, user_phone, user_email, user_linkedin, user_location,
+        user_sec_edu, user_sr_edu, user_languages, user_profile,
+        user_achievements, user_skills, user_knowledge, user_hobbies, picture, filename
       )
 
-    # return f"{user_name}, {user_phone}, {user_email}, {user_location}, {user_sec_edu}, {user_sr_edu}, {user_languages}, {user_profile}, {user_achievements}, {user_skills}, {user_knowledge}, {user_hobbies}"
-    return render_template(
+      if len(data) > 0:
+        cursor.execute(f"DELETE FROM resumes WHERE filename = '{filename}';")
+        cursor.execute(insert_query, data)
+        connect.commit()
+
+      else:
+        cursor.execute(insert_query, data)
+        connect.commit()
+  
+      with smtplib.SMTP(smtp_server, 587) as connection:
+        connection.starttls()
+        connection.login(email, password)
+        connection.sendmail(
+          email, user_email,
+          f"Subject:Resume Form Generated\n\nDear, {user_name} Now you can access you resume by clicking on following link:\n\nSite: http://resume.w16manik.ninja/resume/{user_name[:5]}{user_phone}"
+        )
+
+      return render_template(
         'resume.html',
         name=user_name,  #done
         phone=user_phone,  #done
@@ -88,47 +125,59 @@ def resume():
         linkedin=user_linkedin,  #done
         knowledge=user_knowledge,  #done
         picture=picture,  #done
-        hobbies=user_hobbies)  #done
+        hobbies=user_hobbies
+      )  #done
+    
+    except Exception as e:
+      return f"An error occurred: {str(e)}"
   else:
-    return render_template('form.html', hightlight='Resume')
+    return render_template('form.html', highlight='Resume')
 
 @app.route('/resume/<id>')
 def load_resume(id):
   try:
-    with open(f'./data/{id}.json', 'r') as f:
 
-      n = json.load(f)
+    cursor.execute(f"SELECT * FROM resumes WHERE filename = '{id}';")
+    n = cursor.fetchone()
+    if n:
 
-      lang_name = [i for i in n["languages"].split(', ')[::2]]
-      lang_val = [i for i in n["languages"].split(', ')[1::2]]
-      skill_name = [i for i in n["prof_skills"].split(', ')[::2]]
-      skill_val = [i for i in n["prof_skills"].split(', ')[1::2]]
-      achi_val = [i for i in n["achievements"].split(', ')[::2]]
-      achi_txt = [i for i in n["achievements"].split(', ')[1::2]]
+      lang_name = [i for i in n[7][1:-1].split(',')[::2]]
+      lang_val = [i for i in n[7][1:-1].split(',')[1::2]]
+      skill_name = [i for i in n[10][1:-1].split(',')[::2]]
+      skill_val = [i for i in n[10][1:-1].split(',')[1::2]]
+      achi_val = [i for i in n[9][1:-1].split(',')[::2]]
+      achi_txt = [i for i in n[9][1:-1].split(',')[1::2]]
 
-      lang = dict(map(to_dict, lang_name, lang_val))
-      skill = dict(map(to_dict, skill_name, skill_val))
-      achi = dict(map(to_dict, achi_val, achi_txt))
+      lang = dict(zip(lang_name, lang_val))
+      skill = dict(zip(skill_name, skill_val))
+      achi = dict(zip(achi_val, achi_txt))
+
+      print(lang_name)
+      print(skill)
+      print(achi)
 
       return render_template(
           'resume.html',
-          name=n["name"],  #done
-          phone=n["phone"],  #done
-          email=n["email"],  #done
-          location=n["location"],  #done
-          sec=n["secondary_edu"],  #done
-          sr=n["senior_secondary_edu"],  #done
+          name=n[0],  #done
+          phone=n[1],  #done
+          email=n[2],  #done
+          location=n[4],  #done
+          sec=n[5],  #done
+          sr=n[6],  #done
           language=lang,  #done
-          profile=n["profile"],  #done
+          profile=n[8],  #done
           achievements=achi,  #done
           skills=skill,  #done
-          linkedin=n["linkedin"],  #done
-          knowledge=n["prof_knowledge"].split(', '),  #done
-          picture=n["picture"],  #done
-          hobbies=n["hobbies"].split(', '))  #done
-
-  except FileNotFoundError:
-    return "ERROR USER DOESNT EXIST"
+          linkedin=n[3],  #done
+          knowledge=n[11][1:-1].split(','),  #done
+          picture=n[13],  #done
+          hobbies=n[12][1:-1].split(','))  #done
+    else:
+      return "ERROR: User does not exist"
+  
+  except Exception as e:
+        print("Error:", e)
+        return "An error occurred while fetching data from the database"
 
   finally:
     print("Operation complete")
