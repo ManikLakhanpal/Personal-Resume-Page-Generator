@@ -2,15 +2,20 @@
 {% block title %} Home {% endblock %}
 
 {% block content %}
-<div class="display" style="background-image: url('../static/images/Contact.jpg');">
-    <div class="parent">
-        <div class="displaytxt">
-            Contact Us
+<div class="contact-container">
+    <form action="https://api.web3forms.com/submit" method="POST" class="contact-left">
+        <div class="contact-left-title">
+            <h2>Get in touch </h2>
+            <hr>
         </div>
-        <div class="subtitle">
-            Contact us through tally <a href="https://tally.so/r/m6KLA5" target="_blank" style="text-decoration: none;">&nbsp;form </a>. <p>
-            
-        </div>
+        <input type="hidden" name="access_key" value="ed34cf72-cc5e-4834-b184-bd45821cd618">
+        <input type="text" name="name" placeholder="Your Name" class="contact-inputs" required>
+        <input type="email" name="email" placeholder="Your Email" class="contact-inputs" required>
+        <textarea name="message" placeholder="Your Message" class="contact-inputs" required></textarea>
+        <button type="submit">Submit<img src="../static/images/arrow_icon.png" alt=""></button>
+    </form>
+    <div class="contact-right">
+        <img src="../static/images/contact.png" alt="">
     </div>
 </div>
 {% include 'bottom.html' %}
