@@ -2,16 +2,19 @@
 {% block title %} Home {% endblock %}
 
 {% block content %}
-<div class="display" style="background-image: url('../static/images/about.jpg');">
-    <div class="parent">
-        <div class="displaytxt">
-            About
-        </div>
-        <div class="subtitle">
-            A resume summary is a professional statement at the top of a resume. It describes the candidate's relevant experience, skills, and achievements.
+<section class="about">
+    <div class="main">
+        <img src="../static/images/about.png">
+        <div class="about-text">
+            <h1>About Us</h1>
+            <h5>Resume <span>Builder Website</span></h5>
+            <p>Welcome to our resume builder platform, where we're dedicated to empowering individuals to craft their
+            professional stories with confidence and clarity.  With a user-friendly interface and a wealth of customizable templates, our platform streamlines the resume
+            creation process, allowing users to focus on showcasing their skills, experiences, and achievements.</p>
+            <button type="button"><a href="https://tally.so/r/m6KLA5" target="_blank" style="text-decoration: none; color: white;">let's Talk</a></button>
         </div>
     </div>
-</div>
+</section>
 {% include 'bottom.html' %}
 {% endblock %}
 </body>
