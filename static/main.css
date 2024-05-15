@@ -423,6 +423,40 @@ button:hover{
     .contact-right{
         display: none;
     }
+
+    .main {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
+
+    .about img {
+        width: 80%;
+        max-width: 350px;
+    }
+
+    .about-text {
+        width: 80%;
+        max-width: 450px;
+    }
+
+    .about-text h1 {
+        font-size: 50px;
+    }
+
+    .about-text h5 {
+        font-size: 20px;
+    }
+
+    .about-text p {
+        margin: 20px;
+        font-size: 16px;
+    }
+
+    button {
+        padding: 8px 16px;
+    }
 }
 
 @media (min-width: 768px) {
