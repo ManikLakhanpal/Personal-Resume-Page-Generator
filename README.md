@@ -24,6 +24,10 @@ python main.py
 
 This command will start the site on your localhost, and you can access the site  in your web browser at http://localhost:5004.
 
+### Plan of action
+
+![Screenshot 2024-05-16 194433](https://github.com/ManikLakhanpal/Personal-Resume-Page-Generator/assets/156660478/86b85c8d-5370-484b-8b49-416aa4c0ad09)
+
 #### Contributors
 
 Manan Syal - Third Owner
