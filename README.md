@@ -26,7 +26,8 @@ This command will start the site on your localhost, and you can access the site 
 
 ### Plan of action
 
-![Screenshot 2024-05-16 194433](https://github.com/ManikLakhanpal/Personal-Resume-Page-Generator/assets/156660478/86b85c8d-5370-484b-8b49-416aa4c0ad09)
+![feature timeline (1)](https://github.com/ManikLakhanpal/Personal-Resume-Page-Generator/assets/156660478/7a8a575b-1b19-4967-abfd-afa13f46b468)
+
 
 #### Contributors
 
